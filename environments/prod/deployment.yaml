@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nexadesk-api
+  labels:
+    app: nexadesk
+spec:
+  replicas: 3  # Cria 3 cópias (Alta Disponibilidade)
+  selector:
+    matchLabels:
+      app: nexadesk
+  template:
+    metadata:
+      labels:
+        app: nexadesk
+    spec:
+      containers:
+      - name: api
+        image: nexadesk-api:latest
+        ports:
+        - containerPort: 3000
+        resources: # Limites para não travar o servidor
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
